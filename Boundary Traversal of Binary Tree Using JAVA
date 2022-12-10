@@ -1,0 +1,56 @@
+Steps to solve this problem using Pre-order traversal
+
+1. first, traverse through left nodes of the root and add elements to the list
+2. if you find both left and the right end is null for the node, then print all leaf nodes using function call
+3. Later, traverse through the right nodes of the root and store it in temporary list so that you can print the right nodes in reverse order. 
+
+
+
+
+Java Code: 
+
+public class Solution {
+    static boolean isLeaf(TreeNode node){
+        return (node.left==null) && (node.right==null);
+    }
+    static void leftBoundary(TreeNode node,ArrayList<Integer> l){
+        TreeNode cur=node.left;
+        while(cur!=null){
+            if(isLeaf(cur)==false) l.add(cur.data);
+            if(cur.left!=null) cur=cur.left;
+            else cur=cur.right;
+        }
+    }
+    static void rightBoundary(TreeNode node,ArrayList<Integer> l){
+        TreeNode cur=node.right;
+        ArrayList<Integer> t=new ArrayList <Integer>() ;
+        while(cur!=null){
+            if(isLeaf(cur)==false) t.add(cur.data);
+            if(cur.right!=null) cur=cur.right;
+            else cur=cur.left;
+        }
+        int i;
+        for(i=t.size()-1;i>=0;i--){
+            l.add(t.get(i));
+        }
+    }
+    static void addLeaves(TreeNode node,ArrayList<Integer> l){
+        if(isLeaf(node)){
+            l.add(node.data);
+            return;
+        }
+        if(node.left!=null) addLeaves(node.left,l);
+        if(node.right!=null) addLeaves(node.right,l);
+    }
+    
+	public static ArrayList<Integer> traverseBoundary(TreeNode node){
+		// Write your code here.
+        ArrayList<Integer> l=new ArrayList <Integer>();
+        if(isLeaf(node)==false) l.add(node.data);
+        leftBoundary(node,l);
+        addLeaves(node,l);
+        rightBoundary(node,l);
+        return l;
+        
+	}
+}
