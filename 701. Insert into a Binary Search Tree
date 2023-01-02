@@ -1,0 +1,30 @@
+Steps
+--Start from the root. 
+--Compare the inserting element with the root, if less than the root, then recursively call the left subtree, else recursively call the right subtree. 
+--After reaching the end, just insert that node at left(if less than current) or else right.
+
+Java Code
+
+class Solution {
+    public TreeNode insertIntoBST(TreeNode root, int val) {
+        if(root==null) return new TreeNode(val);
+        TreeNode cur=root;
+        while(true){
+            if(cur.val<=val){
+                if(cur.right!=null) cur=cur.right;
+                else{
+                    cur.right=new TreeNode(val);
+                    break;
+                }
+            }
+            else{
+                if(cur.left!=null) cur=cur.left;
+                else{
+                    cur.left=new TreeNode(val);
+                    break;
+                }
+            }
+        }
+        return root;
+    }
+}
