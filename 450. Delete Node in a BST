@@ -1,0 +1,45 @@
+Steps
+--Follow the below steps to solve the problem:
+
+--If the root is NULL, then return root (Base case)
+--If the key is less than the root’s value, then set root->left = deleteNode(root->left, key)
+--If the key is greater than the root’s value, then set root->right = deleteNode(root->right, key)
+--Else check
+----If the root is a leaf node then return null
+----else if it has only the left child, then return the left child
+----else if it has only the right child, then return the right child
+----else set the value of root as of its inorder successor and recur to delete the node with the value of the inorder successor
+--Return
+
+
+Java Code
+
+class Solution {
+    public TreeNode deleteNode(TreeNode root, int key) {
+        if(root==null) return root;
+        
+        if(root.val<key){
+            root.right=deleteNode(root.right,key);
+        }
+        else if(root.val>key){
+            root.left=deleteNode(root.left,key);
+        }
+        else{
+            if(root.left==null){
+                return root.right;
+            }
+            if(root.right==null){
+                return root.left;
+            }
+            TreeNode succ=root.right; // find inorder successor and replace deleted node value with successor value
+            int succKey=succ.data;
+            while(succ.left!=null){
+                succ=succ.left;
+                succKey=succ.data;
+            }
+            root.data=succ.data;
+            root.right=deleteNode(root.right,succKey);
+        }
+        return root;
+    } 
+}
